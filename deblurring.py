@@ -43,7 +43,7 @@ def get_reg_by_name(name):
 
 def generate_3_channels_from_1(image):
 
-    return tf.shape(tf.stack([image,image,image], axis=-1))
+    return tf.stack([image,image,image], axis=-1)
 
 
 def optimize_latent_codes(args, method):
