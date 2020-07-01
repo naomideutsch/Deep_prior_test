@@ -88,6 +88,7 @@ def optimize_latent_codes(args, method):
     img_names = sorted(os.listdir(args.blurred_imgs_dir))
     for img_name in img_names:
         img = imageio.imread(os.path.join(args.blurred_imgs_dir, img_name))
+        print(img.shape)
 
         sess.run(tf.variables_initializer([latent_code] + optimizer.variables()))
 
