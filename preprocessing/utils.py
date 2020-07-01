@@ -84,7 +84,7 @@ def apply_blur(img, kernel):
 def convert_to_gray(image):
 
     gray = 0.2126 * image[:, :, :, 0] + 0.7152 * image[:, :, :, 1] + 0.0722 * image[:, :, :, 2]
-
+    gray = gray[:,:,:, None]
     result = tf.concat([gray, gray], -1)
     result = tf.concat([result, gray], -1)
 
