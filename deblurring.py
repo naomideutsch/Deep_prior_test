@@ -56,22 +56,17 @@ def optimize_latent_codes(args, method):
     latent_code = tf.get_variable(
 		name='latent_code', shape=(1, 18, 512), dtype='float32', initializer=tf.initializers.zeros()
 	)
-    img_size = (args.input_size[0], args.input_size[1])
 
     generated_img = Gs.components.synthesis.get_output_for(latent_code, randomize_noise=False)
     generated_img = tf.transpose(generated_img, [0, 2, 3, 1])
     generated_img = ((generated_img + 1) / 2) * 255
-    generated_img = tf.image.resize_images(generated_img, tuple(img_size), method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
+    generated_img = tf.image.resize_images(generated_img, tuple(args.input_size), method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
     generated_method_img = method(generated_img)
     generated_img_for_display = tf.saturate_cast(generated_img, tf.uint8)
 
     method_img = tf.placeholder(tf.float32, [None, args.input_size[0], args.input_size[1], 3])
 
-
-
-
-
-    perceptual_model = PerceptualModel(img_size=(args.input_size[0], args.input_size[1]))
+    perceptual_model = PerceptualModel(img_size=args.input_size)
     generated_img_features = perceptual_model(generated_method_img)
     target_img_features = perceptual_model(method_img)
 
@@ -101,8 +96,6 @@ def optimize_latent_codes(args, method):
             bar_format='{desc}: {percentage:3.0f}% |{bar}| {n_fmt}/{total_fmt}{postfix}',
             desc=img_name
         )
-
-
 
         for i in progress_bar_iterator:
             loss, _ = sess.run(
@@ -137,8 +130,7 @@ if __name__ == '__main__':
     parser.add_argument('--m', type=str, default="blur")
     parser.add_argument('--ckpt', type=str)
 
-
-    parser.add_argument('--input-size', type=int, nargs=3, default=(128, 128, 3))
+    parser.add_argument('--input-size', type=int, nargs=2, default=(128, 128))
     parser.add_argument('--beta', type=float, default=0.01)
     parser.add_argument('--reg', default="l2")
 
@@ -152,14 +144,6 @@ if __name__ == '__main__':
     parser.add_argument('--total-iterations', type=int, default=1000)
 
     args = parser.parse_args()
-
-
-    # args.blurred_imgs_dir = os.path.join(os.getcwd(), args.blurred_imgs_dir)
-    #
-    #
-    #
-    # args.deblurred_imgs_dir = os.path.join(os.getcwd(), args.deblurred_imgs_dir)
-    # args.latents_dir = os.path.join(os.getcwd(), args.latents_dir)
 
 
     os.makedirs(args.deblurred_imgs_dir, exist_ok=True)

@@ -87,12 +87,7 @@ def convert_to_gray(image):
     gray = gray[:,:,:, None]
     result = tf.concat([gray, gray], -1)
     result = tf.concat([result, gray], -1)
-    final = result.eval(session=tf.compat.v1.Session())
-
-
-
-    # return 0.2126 * image[:, :, :, 0] + 0.7152 * image[:, :, :, 1] + 0.0722 * image[:, :, :, 2]
-    return final
+    return result
 
 
 
