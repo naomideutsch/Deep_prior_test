@@ -92,7 +92,7 @@ def convert_to_gray(image):
 
 
     # return 0.2126 * image[:, :, :, 0] + 0.7152 * image[:, :, :, 1] + 0.0722 * image[:, :, :, 2]
-    return result
+    return final
 
 
 
