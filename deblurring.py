@@ -67,14 +67,11 @@ def optimize_latent_codes(args, method):
     generated_method_img = method(generated_img)
     generated_img_for_display = tf.saturate_cast(generated_img, tf.uint8)
 
-    method_img = tf.placeholder(tf.float32, [None, args.input_size[0], args.input_size[1], args.input_size[2]])
-
-    if args.m == "color":
-        generated_method_img = generate_3_channels_from_1(generated_method_img)
-        method_img = generate_3_channels_from_1(method_img)
+    method_img = tf.placeholder(tf.float32, [None, args.input_size[0], args.input_size[1], 3])
 
 
-    perceptual_model = PerceptualModel(img_size=(args.input_size[0], args.input_size[1], 3))
+
+    perceptual_model = PerceptualModel(img_size=(args.input_size[0], args.input_size[1]))
     generated_img_features = perceptual_model(generated_method_img)
     target_img_features = perceptual_model(method_img)
 
@@ -104,6 +101,8 @@ def optimize_latent_codes(args, method):
             bar_format='{desc}: {percentage:3.0f}% |{bar}| {n_fmt}/{total_fmt}{postfix}',
             desc=img_name
         )
+
+
 
         for i in progress_bar_iterator:
             loss, _ = sess.run(

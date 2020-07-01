@@ -82,7 +82,14 @@ def apply_blur(img, kernel):
 
 
 def convert_to_gray(image):
-    return 0.2126 * image[:, :, :, 0] + 0.7152 * image[:, :, :, 1] + 0.0722 * image[:, :, :, 2]
+    np_size = np.array(image.shape)
+    result = np.zeros((1, np_size[1], np_size[2], 3))
+    result[:,:,:,0] = 0.2126 * image[:, :, :, 0] + 0.7152 * image[:, :, :, 1] + 0.0722 * image[:, :, :, 2]
+    result[:,:,:,1] = 0.2126 * image[:, :, :, 0] + 0.7152 * image[:, :, :, 1] + 0.0722 * image[:, :, :, 2]
+    result[:,:,:,2] = 0.2126 * image[:, :, :, 0] + 0.7152 * image[:, :, :, 1] + 0.0722 * image[:, :, :, 2]
+
+    # return 0.2126 * image[:, :, :, 0] + 0.7152 * image[:, :, :, 1] + 0.0722 * image[:, :, :, 2]
+    return tf.convert_to_tensor(result)
 
 
 
