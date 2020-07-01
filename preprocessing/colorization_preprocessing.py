@@ -4,12 +4,13 @@ from PIL import Image
 import numpy as np
 import utils
 import tensorflow as tf
+import imageio
 
 
 def gray_preprocessing(args):
     images_paths = os.listdir(args.img_dir)
     for name in images_paths:
-        image = Image.open(os.path.join(args.img_dir, name))
+        image = imageio.imread(os.path.join(args.img_dir, name))
         tf_image = tf.convert_to_tensor(np.array(image).astype(np.float32))
         gray_image = utils.convert_to_gray(tf_image[None])[0]
         blurred = Image.fromarray(np.uint8(tf.Session().run(gray_image)))
