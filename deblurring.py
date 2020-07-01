@@ -74,8 +74,8 @@ def optimize_latent_codes(args, method):
 
     loss_op = tf.reduce_mean(tf.abs(generated_img_features - target_img_features))
 
-    if reg != None:
-        loss_op += args.beta * reg(generated_img)
+    # if reg != None:
+    #     loss_op += args.beta * reg(generated_img)
 
 
 
