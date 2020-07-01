@@ -71,6 +71,8 @@ def optimize_latent_codes(args, method):
 
 
 
+
+
     perceptual_model = PerceptualModel(img_size=(args.input_size[0], args.input_size[1]))
     generated_img_features = perceptual_model(generated_method_img)
     target_img_features = perceptual_model(method_img)
