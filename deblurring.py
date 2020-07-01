@@ -66,7 +66,7 @@ def optimize_latent_codes(args, method):
 
     method_img = tf.placeholder(tf.float32, [None, args.input_size[0], args.input_size[1], args.input_size[2]])
 
-    perceptual_model = PerceptualModel(img_size=img_size)
+    perceptual_model = PerceptualModel(img_size=args.input_size)
     generated_img_features = perceptual_model(generated_method_img)
     target_img_features = perceptual_model(method_img)
 
@@ -88,7 +88,6 @@ def optimize_latent_codes(args, method):
     img_names = sorted(os.listdir(args.blurred_imgs_dir))
     for img_name in img_names:
         img = imageio.imread(os.path.join(args.blurred_imgs_dir, img_name))
-        print(img.shape)
 
         sess.run(tf.variables_initializer([latent_code] + optimizer.variables()))
 
