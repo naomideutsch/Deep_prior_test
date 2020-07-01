@@ -42,12 +42,8 @@ def get_reg_by_name(name):
         return lambda image: get_l2_reg(image)
 
 def generate_3_channels_from_1(image):
-    np_image = np.array(image)
-    result = np.zeros((np_image.shape[0], np_image.shape[1], 3))
-    result[:, :, 0] = np_image
-    result[:, :, 1] = np_image
-    result[:, :, 2] = np_image
-    return tf.convert_to_tensor(result)
+
+    return tf.shape(tf.stack([image,image,image], axis=-1))
 
 
 def optimize_latent_codes(args, method):
