@@ -49,7 +49,7 @@ def optimize_latent_codes(args, method):
     reg = get_reg_by_name(args.reg)
 
 
-    with open(STYLEGAN_MODEL_URL, "rb") as f:
+    with open(args.ckpt, "rb") as f:
         _G, _D, Gs = pickle.load(f)
 
     latent_code = tf.get_variable(
@@ -128,6 +128,7 @@ if __name__ == '__main__':
     parser.add_argument('--deblurred-imgs-dir', type=str, required=True)
     parser.add_argument('--latents-dir', type=str, required=True)
     parser.add_argument('--m', type=str, default="blur")
+    parser.add_argument('--ckpt', type=str)
 
 
     parser.add_argument('--input-size', type=int, nargs=3, default=(128, 128, 3))
