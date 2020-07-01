@@ -41,9 +41,7 @@ def get_reg_by_name(name):
     if name == "l2":
         return lambda image: get_l2_reg(image)
 
-def generate_3_channels_from_1(image):
 
-    return tf.stack([image,image,image], axis=-1)
 
 
 def optimize_latent_codes(args, method):
